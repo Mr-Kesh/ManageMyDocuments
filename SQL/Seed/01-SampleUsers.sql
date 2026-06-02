@@ -1,42 +1,281 @@
 INSERT INTO users (email, password_hash, user_role, full_name)
 VALUES
-    ('admin@sq.example.com', 'TEMP_PASSWORD_HASH', 'Admin', 'SQ System Admin'),
-    ('manager@sq.example.com', 'TEMP_PASSWORD_HASH', 'Admin', 'SQ Operations Manager'),
-    ('compliance.admin@sq.example.com', 'TEMP_PASSWORD_HASH', 'Admin', 'SQ Compliance Admin'),
-    ('eddy.ng@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Eddy Ng'),
-    ('andrew.lauwira@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Andrew Lauwira'),
-    ('maria.santos@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Maria Santos'),
-    ('david.chen@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'David Chen'),
-    ('sarah.johnson@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Sarah Johnson'),
-    ('michael.lee@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Michael Lee'),
-    ('linda.garcia@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Linda Garcia'),
-    ('robert.wilson@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Robert Wilson'),
-    ('james.anderson@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'James Anderson'),
-    ('patricia.martinez@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Patricia Martinez'),
-    ('john.thompson@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'John Thompson'),
-    ('jennifer.white@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Jennifer White'),
-    ('william.harris@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'William Harris'),
-    ('elizabeth.clark@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Elizabeth Clark'),
-    ('richard.lewis@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Richard Lewis'),
-    ('barbara.robinson@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Barbara Robinson'),
-    ('thomas.walker@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Thomas Walker'),
-    ('susan.young@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Susan Young'),
-    ('charles.king@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Charles King'),
-    ('jessica.scott@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Jessica Scott'),
-    ('daniel.green@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Daniel Green'),
-    ('nancy.adams@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Nancy Adams'),
-    ('paul.baker@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Paul Baker'),
-    ('karen.gonzalez@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Karen Gonzalez'),
-    ('mark.nelson@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Mark Nelson'),
-    ('betty.carter@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Betty Carter'),
-    ('donald.mitchell@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Donald Mitchell'),
-    ('helen.perez@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Helen Perez'),
-    ('george.roberts@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'George Roberts'),
-    ('sandra.turner@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Sandra Turner'),
-    ('kenneth.phillips@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Kenneth Phillips'),
-    ('donna.campbell@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Donna Campbell'),
-    ('steven.parker@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Steven Parker'),
-    ('carol.evans@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Carol Evans'),
-    ('edward.edwards@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Edward Edwards'),
-    ('ruth.collins@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Ruth Collins'),
-    ('brian.stewart@sq.example.com', 'TEMP_PASSWORD_HASH', 'User', 'Brian Stewart');
+    (
+        'admin@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'Admin',
+        'SQ System Admin'
+    ),
+
+    (
+        'manager@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'Admin',
+        'SQ Operations Manager'
+    ),
+
+    (
+        'compliance.admin@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'Admin',
+        'SQ Compliance Admin'
+    ),
+
+    (
+        'eddy.ng@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Eddy Ng'
+    ),
+
+    (
+        'andrew.lauwira@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Andrew Lauwira'
+    ),
+
+    (
+        'maria.santos@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Maria Santos'
+    ),
+
+    (
+        'david.chen@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'David Chen'
+    ),
+
+    (
+        'sarah.johnson@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Sarah Johnson'
+    ),
+
+    (
+        'michael.lee@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Michael Lee'
+    ),
+
+    (
+        'linda.garcia@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Linda Garcia'
+    ),
+
+    (
+        'robert.wilson@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Robert Wilson'
+    ),
+
+    (
+        'james.anderson@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'James Anderson'
+    ),
+
+    (
+        'patricia.martinez@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Patricia Martinez'
+    ),
+
+    (
+        'john.thompson@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'John Thompson'
+    ),
+
+    (
+        'jennifer.white@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Jennifer White'
+    ),
+
+    (
+        'william.harris@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'William Harris'
+    ),
+
+    (
+        'elizabeth.clark@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Elizabeth Clark'
+    ),
+
+    (
+        'richard.lewis@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Richard Lewis'
+    ),
+
+    (
+        'barbara.robinson@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Barbara Robinson'
+    ),
+
+    (
+        'thomas.walker@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Thomas Walker'
+    ),
+
+    (
+        'susan.young@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Susan Young'
+    ),
+
+    (
+        'charles.king@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Charles King'
+    ),
+
+    (
+        'jessica.scott@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Jessica Scott'
+    ),
+
+    (
+        'daniel.green@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Daniel Green'
+    ),
+
+    (
+        'nancy.adams@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Nancy Adams'
+    ),
+
+    (
+        'paul.baker@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Paul Baker'
+    ),
+
+    (
+        'karen.gonzalez@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Karen Gonzalez'
+    ),
+
+    (
+        'mark.nelson@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Mark Nelson'
+    ),
+
+    (
+        'betty.carter@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Betty Carter'
+    ),
+
+    (
+        'donald.mitchell@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Donald Mitchell'
+    ),
+
+    (
+        'helen.perez@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Helen Perez'
+    ),
+
+    (
+        'george.roberts@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'George Roberts'
+    ),
+
+    (
+        'sandra.turner@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Sandra Turner'
+    ),
+
+    (
+        'kenneth.phillips@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Kenneth Phillips'
+    ),
+
+    (
+        'donna.campbell@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Donna Campbell'
+    ),
+
+    (
+        'steven.parker@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Steven Parker'
+    ),
+
+    (
+        'carol.evans@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Carol Evans'
+    ),
+
+    (
+        'edward.edwards@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Edward Edwards'
+    ),
+
+    (
+        'ruth.collins@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Ruth Collins'
+    ),
+
+    (
+        'brian.stewart@sq.example.com',
+        'TEMP_PASSWORD_HASH',
+        'User',
+        'Brian Stewart'
+    );
