@@ -3,7 +3,7 @@ CREATE TABLE documents_versions (
     version_number INT NOT NULL,
     expiration_date DATETIME NOT NULL,
     last_modified_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    
+
     document_id INT NOT NULL,
     FOREIGN KEY (document_id) REFERENCES documents(document_id),
 
