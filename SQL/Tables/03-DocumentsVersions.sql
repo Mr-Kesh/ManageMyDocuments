@@ -5,7 +5,8 @@ CREATE TABLE documents_versions (
     last_modified_time DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     document_id INT NOT NULL,
-    FOREIGN KEY (document_id) REFERENCES documents(document_id),
+    FOREIGN KEY (document_id) REFERENCES documents(document_id)
+    ON DELETE CASCADE
 
     last_modified_by INT NOT NULL,
     FOREIGN KEY(last_modified_by) REFERENCES users(user_id)

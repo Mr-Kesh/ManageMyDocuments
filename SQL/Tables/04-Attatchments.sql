@@ -6,4 +6,5 @@ CREATE TABLE attachments (
 
     document_version_id INT NOT NULL,
     FOREIGN KEY (document_version_id) REFERENCES documents_versions(version_id)
+    ON DELETE CASCADE
 );
