@@ -8,7 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="MySqlConnector" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="SQL\Queries\**\*.sql" CopyToOutputDirectory="PreserveNewest" LinkBase="SQL\Queries" />
   </ItemGroup>
 
 </Project>

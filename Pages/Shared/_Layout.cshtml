@@ -1,46 +1,76 @@
-﻿<!DOCTYPE html>
+@using Document_Management_System.Constants
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var session = HttpContextAccessor.HttpContext?.Session;
+    var userId = session?.GetInt32(SessionKeys.UserId);
+    var userName = session?.GetString(SessionKeys.UserFullName);
+    var userRole = session?.GetString(SessionKeys.UserRole);
+    var isAdmin = string.Equals(userRole, "Admin", StringComparison.OrdinalIgnoreCase);
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Document_Management_System</title>
-    <script type="importmap"></script>
+    <title>Manage My Documents | @ViewData["Title"]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Document_Management_System.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Document_Management_System</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
+    <header class="site-header">
+        <div class="header-container">
+            <div class="header-main">
+                <a class="site-logo" asp-page="/Index">
+                    <img src="~/images/logo.png" alt="Manage My Documents" />
+                </a>
+                <nav class="site-nav">
+                    <ul>
+                        <li><a asp-page="/Index">Home</a></li>
+                        @if (userId is not null)
+                        {
+                            <li><a asp-page="/Documents/Index">Documents</a></li>
+                            <li><a asp-page="/Documents/ExpiringSoon">Expiring Soon</a></li>
+                            @if (isAdmin)
+                            {
+                                <li><a asp-page="/Admin/Users/Index">Users</a></li>
+                            }
+                            <li><a asp-page="/Account/Profile">Profile</a></li>
+                        }
                     </ul>
-                </div>
+                </nav>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Document_Management_System - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            <div class="header-authentication">
+                @if (userId is null)
+                {
+                    <a asp-page="/Account/SignIn">Login</a>
+                }
+                else
+                {
+                    <span class="user-name">@userName</span>
+                    <a asp-page="/Account/SignOut">Logout</a>
+                }
+            </div>
         </div>
+    </header>
+
+    <main>
+        @if (string.Equals(ViewData["FullBleed"]?.ToString(), "true", StringComparison.OrdinalIgnoreCase))
+        {
+            @RenderBody()
+        }
+        else
+        {
+            <div class="page">
+                @RenderBody()
+            </div>
+        }
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; @DateTime.Now.Year Manage My Documents | All rights reserved</p>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

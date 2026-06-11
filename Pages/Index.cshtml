@@ -1,10 +1,66 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
+    ViewData["FullBleed"] = "true";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Document Management System</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="banner-container">
+    <h1>Manage My Documents</h1>
+    <p>Track crew documents, versions, and attachments in one place.</p>
+</div>
+
+<div class="home-content">
+    @if (Model.IsSignedIn)
+    {
+        <h1>Welcome back, @Model.WelcomeName</h1>
+    }
+    else
+    {
+        <h1>Welcome to the Document Management System</h1>
+    }
+    <p>This portal helps authorized users <strong>view, edit, add, and delete</strong> crew documents, their versions, and attached files based on their access level.</p>
+
+    @if (Model.IsSignedIn)
+    {
+        <div class="stat-grid">
+            <div class="stat-card">
+                <h2>Documents</h2>
+                <div class="stat-number">@Model.DocumentCount</div>
+                <a class="btn-primary" asp-page="/Documents/Index">View documents</a>
+            </div>
+            <div class="stat-card">
+                <h2>Expiring Soon</h2>
+                <div class="stat-number">@Model.ExpiringCount</div>
+                <a class="btn-outline-secondary" asp-page="/Documents/ExpiringSoon">View alerts</a>
+            </div>
+            @if (Model.IsAdmin)
+            {
+                <div class="stat-card">
+                    <h2>Users</h2>
+                    <div class="stat-number">&nbsp;</div>
+                    <a class="btn-outline-secondary" asp-page="/Admin/Users/Index">Manage users</a>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="home-sections">
+            <section>
+                <h2>View Documents</h2>
+                <p>Browse crew documents, search by title, and filter by crew to find what you need quickly.</p>
+            </section>
+            <section>
+                <h2>Manage Versions</h2>
+                <p>Add new versions with expiration dates, upload attachments, and keep a full history of every document.</p>
+            </section>
+            <section>
+                <h2>Add or Delete</h2>
+                <p>Create new documents and remove outdated ones. Administrators can also manage user accounts.</p>
+            </section>
+        </div>
+
+        <p><a class="btn-primary" asp-page="/Account/SignIn">Login to get started</a></p>
+    }
 </div>

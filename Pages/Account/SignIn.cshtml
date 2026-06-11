@@ -1,0 +1,33 @@
+@page
+@model Document_Management_System.Pages.Account.SignInModel
+@{
+    ViewData["Title"] = "Login";
+    ViewData["FullBleed"] = "true";
+}
+
+<main class="login-container">
+    <div class="login-box">
+        <h2>Login</h2>
+        <p>Enter your email and password to login.</p>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="notification-error">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <div>@error.ErrorMessage</div>
+                }
+            </div>
+        }
+
+        <form method="post" class="login-form">
+            <input asp-for="Input.Email" placeholder="Email" autocomplete="username" />
+            <input asp-for="Input.Password" placeholder="Password" autocomplete="current-password" />
+            <button type="submit" class="login-button">Login</button>
+        </form>
+    </div>
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

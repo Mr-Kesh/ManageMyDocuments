@@ -1,0 +1,28 @@
+@page "{id:int}"
+@model Document_Management_System.Pages.Versions.EditModel
+@{
+    ViewData["Title"] = "Edit Version";
+}
+
+<h1 class="h3 mb-2">@ViewData["Title"]</h1>
+<p class="text-muted mb-4">@Model.DocumentTitle — version @Model.VersionNumber</p>
+
+<form method="post" class="card shadow-sm col-lg-6">
+    <div class="card-body">
+        <input type="hidden" asp-for="Input.VersionId" />
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label asp-for="Input.ExpirationDate" class="form-label"></label>
+            <input asp-for="Input.ExpirationDate" class="form-control" type="date" />
+            <span asp-validation-for="Input.ExpirationDate" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a class="btn btn-outline-secondary ms-2" asp-page="/Versions/Details" asp-route-id="@Model.Input.VersionId">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

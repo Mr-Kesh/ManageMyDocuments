@@ -1,4 +1,4 @@
-CREATE TABLE documents_versions (
+CREATE TABLE IF NOT EXISTS documents_versions (
     version_id INT AUTO_INCREMENT PRIMARY KEY,
     version_number INT NOT NULL,
     expiration_date DATETIME NOT NULL,

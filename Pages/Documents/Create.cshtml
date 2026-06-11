@@ -1,0 +1,44 @@
+@page
+@model Document_Management_System.Pages.Documents.CreateModel
+@{
+    ViewData["Title"] = "Create Document";
+}
+
+<h1 class="h3 mb-4">@ViewData["Title"]</h1>
+
+<form method="post" enctype="multipart/form-data" class="card shadow-sm col-lg-7">
+    <div class="card-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label asp-for="Input.Title" class="form-label"></label>
+            <input asp-for="Input.Title" class="form-control" />
+            <span asp-validation-for="Input.Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Input.CrewName" class="form-label"></label>
+            <input asp-for="Input.CrewName" class="form-control" />
+            <span asp-validation-for="Input.CrewName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Input.ExpirationDate" class="form-label"></label>
+            <input asp-for="Input.ExpirationDate" class="form-control" type="date" />
+            <span asp-validation-for="Input.ExpirationDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Input.Files" class="form-label"></label>
+            <input asp-for="Input.Files" class="form-control" type="file" multiple />
+            <span asp-validation-for="Input.Files" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a class="btn btn-outline-secondary ms-2" asp-page="/Documents/Index">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

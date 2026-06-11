@@ -1,0 +1,66 @@
+@page
+@model Document_Management_System.Pages.Documents.IndexModel
+@{
+    ViewData["Title"] = "Documents";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+    <a class="btn btn-primary" asp-page="/Documents/Create">Create document</a>
+</div>
+
+@if (TempData["Message"] is string message)
+{
+    <div class="alert alert-success">@message</div>
+}
+
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <input asp-for="Search" class="form-control" placeholder="Search by title" />
+    </div>
+    <div class="col-md-4">
+        <input asp-for="Crew" class="form-control" placeholder="Filter by crew" />
+    </div>
+    <div class="col-md-4">
+        <button type="submit" class="btn btn-outline-light me-2">Search</button>
+        <a class="btn btn-outline-secondary" asp-page="/Documents/Index">Clear</a>
+    </div>
+</form>
+
+@if (Model.Documents.Count == 0)
+{
+    <p class="text-muted">No documents found.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Crew</th>
+                    <th>Created</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var doc in Model.Documents)
+                {
+                    <tr>
+                        <td>@doc.Title</td>
+                        <td>@doc.CrewName</td>
+                        <td>@doc.CreationTime.ToString("g")</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-light" asp-page="/Documents/Details" asp-route-id="@doc.DocumentId">View</a>
+                            <a class="btn btn-sm btn-outline-light" asp-page="/Documents/Edit" asp-route-id="@doc.DocumentId">Edit</a>
+                            <form method="post" asp-page-handler="Delete" asp-route-documentId="@doc.DocumentId" class="d-inline"
+                                  onsubmit="return confirm('Delete this document and all versions?');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

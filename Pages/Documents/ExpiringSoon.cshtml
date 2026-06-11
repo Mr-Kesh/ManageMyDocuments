@@ -1,0 +1,52 @@
+@page
+@model Document_Management_System.Pages.Documents.ExpiringSoonModel
+@{
+    ViewData["Title"] = "Expiring Soon";
+}
+
+<h1 class="h3 mb-4">@ViewData["Title"]</h1>
+
+<form method="get" class="row g-2 mb-4 col-md-4">
+    <div class="col-8">
+        <label class="form-label">Within months</label>
+        <input asp-for="Months" class="form-control" type="number" min="1" max="24" />
+    </div>
+    <div class="col-4 d-flex align-items-end">
+        <button type="submit" class="btn btn-outline-light w-100">Apply</button>
+    </div>
+</form>
+
+@if (Model.Versions.Count == 0)
+{
+    <p class="text-muted">No versions expiring in the next @Model.Months month(s).</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Document</th>
+                    <th>Crew</th>
+                    <th>Version</th>
+                    <th>Expires</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Versions)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.CrewName</td>
+                        <td>v@item.VersionNumber</td>
+                        <td>@item.ExpirationDate.ToString("d")</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-light" asp-page="/Versions/Details" asp-route-id="@item.VersionId">Open</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

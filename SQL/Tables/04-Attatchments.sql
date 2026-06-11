@@ -1,4 +1,4 @@
-CREATE TABLE attachments (
+CREATE TABLE IF NOT EXISTS attachments (
     attachment_id INT AUTO_INCREMENT PRIMARY KEY,
     attachment_name VARCHAR(255) NOT NULL,
     attachment_path VARCHAR(255) NOT NULL,
