@@ -27,6 +27,7 @@ public class IndexModel : PageModel
             return;
         }
 
+        IsSignedIn = true;
         WelcomeName = HttpContext.Session.GetString(SessionKeys.UserFullName);
         IsAdmin = string.Equals(HttpContext.Session.GetString(SessionKeys.UserRole), "Admin", StringComparison.OrdinalIgnoreCase);
 

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS documents_versions (
 
     document_id INT NOT NULL,
     FOREIGN KEY (document_id) REFERENCES documents(document_id)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
 
     last_modified_by INT NOT NULL,
     FOREIGN KEY(last_modified_by) REFERENCES users(user_id)
