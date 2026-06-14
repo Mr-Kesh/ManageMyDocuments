@@ -12,6 +12,11 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<QueryLoader>();
+
+/* Each request gets its own fresh service object, so temporary data,
+variables, database connections, and resources from one request can't
+accidentally interfere with another request.
+*/
 builder.Services.AddScoped<AppDb>();
 builder.Services.AddScoped<FileStorageService>();
 
@@ -23,12 +28,24 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+/* The middleware pipeline is the list of steps every web request goes through before ASP.NET returns a response */
+
+/* If the request is coming in over HTTP, it automatically redirects to HTTPS */
 app.UseHttpsRedirection();
+
+/* Serves static files like CSS, JavaScript, and images from the wwwroot folder */
 app.UseStaticFiles();
+
+/* Handles routing URLs to the correct Razor Pages or controllers */
 app.UseRouting();
+
+/* Handles session management, which allows you to store user data between requests */
 app.UseSession();
+
+/* Handles authorization and authentication, which allows you to restrict access to certain pages or actions */
 app.UseAuthorization();
 
+/* Maps the Razor Pages to the correct URL paths */
 app.MapRazorPages();
 
 app.Run();

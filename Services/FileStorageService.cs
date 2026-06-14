@@ -9,10 +9,10 @@ public class FileStorageService
         _environment = environment;
     }
 
-    public async Task<string> SaveUploadAsync(IFormFile file, int documentId, int versionId)
+    public async Task<string> SaveUploadAsync(IFormFile file, int documentId, int versionNumber)
     {
         var fileName = Path.GetFileName(file.FileName);
-        var relativeDirectory = Path.Combine("uploads", documentId.ToString(), $"V{versionId}");
+        var relativeDirectory = Path.Combine("uploads", documentId.ToString(), $"V{versionNumber}");
         var absoluteDirectory = Path.Combine(_environment.WebRootPath, relativeDirectory);
         Directory.CreateDirectory(absoluteDirectory);
 

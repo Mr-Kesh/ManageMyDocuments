@@ -36,12 +36,6 @@ public class CreateModel : AuthenticatedPageModel
             return Page();
         }
 
-        if (Input.Files is null || Input.Files.Count == 0)
-        {
-            ModelState.AddModelError(string.Empty, "Upload at least one file.");
-            return Page();
-        }
-
         var documentId = await _db.CreateDocumentAsync(Input.Title, Input.CrewName, CurrentUserId!.Value);
         var versionNumber = await _db.GetNextVersionNumberAsync(documentId);
         var versionId = await _db.CreateVersionAsync(

@@ -39,7 +39,7 @@ else
                     <tr>
                         <td>@item.Title</td>
                         <td>@item.CrewName</td>
-                        <td>v@item.VersionNumber</td>
+                        <td>Version @item.VersionNumber</td>
                         <td>@item.ExpirationDate.ToString("d")</td>
                         <td class="text-end">
                             <a class="btn btn-sm btn-outline-light" asp-page="/Versions/Details" asp-route-id="@item.VersionId">Open</a>

@@ -26,13 +26,7 @@ public class CreateModel : AuthenticatedPageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var redirect = RequireLogin();
-        if (redirect != null)
-        {
-            return redirect;
-        }
-
-        return await LoadPageAsync();
+        return RequireLogin() ?? await LoadPageResourcesAsync();
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -45,26 +39,14 @@ public class CreateModel : AuthenticatedPageModel
 
         if (!ModelState.IsValid)
         {
-            await LoadPageAsync();
-            return Page();
+            return await LoadPageResourcesAsync();
+
         }
 
         var document = await _db.GetDocumentByIdAsync(DocumentId);
         if (document is null)
         {
             return NotFound();
-        }
-
-        if (!IsAdmin && document.CreatedBy != CurrentUserId)
-        {
-            return Forbid();
-        }
-
-        if (Input.Files is null || Input.Files.Count == 0)
-        {
-            ModelState.AddModelError(string.Empty, "Upload at least one file.");
-            await LoadPageAsync();
-            return Page();
         }
 
         var versionNumber = await _db.GetNextVersionNumberAsync(DocumentId);
@@ -85,17 +67,12 @@ public class CreateModel : AuthenticatedPageModel
         return RedirectToPage("/Documents/Details", new { id = DocumentId });
     }
 
-    private async Task<IActionResult> LoadPageAsync()
+    private async Task<IActionResult> LoadPageResourcesAsync()
     {
         var document = await _db.GetDocumentByIdAsync(DocumentId);
         if (document is null)
         {
             return NotFound();
-        }
-
-        if (!IsAdmin && document.CreatedBy != CurrentUserId)
-        {
-            return Forbid();
         }
 
         DocumentTitle = document.Title;
@@ -107,7 +84,7 @@ public class CreateModel : AuthenticatedPageModel
     public class InputModel
     {
         [Required]
-        [Display(Name = "Expiration date")]
+        [Display(Name = "Expiration Date")]
         [DataType(DataType.Date)]
         public DateTime ExpirationDate { get; set; } = DateTime.Today.AddYears(1);
 

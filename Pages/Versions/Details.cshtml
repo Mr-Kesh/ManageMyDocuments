@@ -17,7 +17,7 @@ else
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="h3 mb-1">@Model.Document.Title — Version @Model.Version.VersionNumber</h1>
+            <h1 class="h3 mb-1">@Model.Document.Title — Version @Model.Version.VersionNumber.ToString()</h1>
             <p class="text-muted mb-0">
                 Expires @Model.Version.ExpirationDate.ToString("d") ·
                 @Model.AttachmentCount file(s)
@@ -46,6 +46,7 @@ else
                     <span>@file.AttachmentName <small class="text-muted">(@file.AttachmentType)</small></span>
                     <span>
                         <a class="btn btn-sm btn-outline-light" asp-page="/Attachments/Download" asp-route-id="@file.AttachmentId">Download</a>
+                        <a class="btn btn-sm btn-outline-info" asp-page="/Attachments/Open" asp-route-id="@file.AttachmentId" target="_blank">Open</a>
                         <form method="post" asp-page-handler="DeleteAttachment" asp-route-id="@Model.Version.VersionId" asp-route-attachmentId="@file.AttachmentId" class="d-inline"
                               onsubmit="return confirm('Delete this file?');">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>

@@ -434,4 +434,12 @@ public class AppDb
         command.Parameters.AddWithValue("@AttachmentId", attachmentId);
         await command.ExecuteNonQueryAsync();
     }
+
+    public async Task<string?> GetLastModifiedByNameAsync(int versionId)
+    {
+        await using var connection = await OpenConnectionAsync();
+        await using var command = new MySqlCommand(_queries.Load("DocumentsVersions", "LastModifiedByName.sql"), connection);
+        command.Parameters.AddWithValue("@VersionId", versionId);
+        return await ReadSingleAsync(command, reader => reader.GetString("last_modified_by_name"));
+    }
 }

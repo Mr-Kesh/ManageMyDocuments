@@ -9,4 +9,5 @@ public class VersionRecord
     public int DocumentId { get; set; }
     public int LastModifiedBy { get; set; }
     public DateTime CreationTime { get; set; }
+    public string LastModifiedByName { get; set; } = string.Empty;
 }

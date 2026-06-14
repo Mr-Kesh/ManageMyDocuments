@@ -21,13 +21,8 @@ public class EditModel : AuthenticatedPageModel
 
     public async Task<IActionResult> OnGetAsync(int id)
     {
-        var redirect = RequireLogin();
-        if (redirect != null)
-        {
-            return redirect;
-        }
+        return RequireLogin() ?? await LoadPageAsync(id);
 
-        return await LoadPageAsync(id);
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -62,7 +57,7 @@ public class EditModel : AuthenticatedPageModel
         }
 
         await _db.UpdateVersionAsync(Input.VersionId, Input.ExpirationDate, CurrentUserId!.Value);
-        TempData["Message"] = "Version updated.";
+        TempData["Message"] = "Version Updated Successfully!";
         return RedirectToPage("/Versions/Details", new { id = Input.VersionId });
     }
 
@@ -85,7 +80,7 @@ public class EditModel : AuthenticatedPageModel
             return Forbid();
         }
 
-        Input.VersionId = version.VersionId;
+        Input.VersionId = versionId;
         Input.ExpirationDate = version.ExpirationDate.Date;
         DocumentTitle = document.Title;
         VersionNumber = version.VersionNumber;
@@ -97,7 +92,7 @@ public class EditModel : AuthenticatedPageModel
         public int VersionId { get; set; }
 
         [Required]
-        [Display(Name = "Expiration date")]
+        [Display(Name = "Expiration Date")]
         [DataType(DataType.Date)]
         public DateTime ExpirationDate { get; set; }
     }

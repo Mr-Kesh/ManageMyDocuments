@@ -38,7 +38,8 @@ else
                     <tr>
                         <th>Version</th>
                         <th>Expires</th>
-                        <th>Last modified</th>
+                        <th>Last Modified Time</th>
+                        <th>Last Modified By</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -46,9 +47,10 @@ else
                     @foreach (var version in Model.Versions)
                     {
                         <tr>
-                            <td>v@version.VersionNumber</td>
+                            <td>Version @version.VersionNumber.ToString()</td>
                             <td>@version.ExpirationDate.ToString("d")</td>
                             <td>@version.LastModifiedTime.ToString("g")</td>
+                            <td>@version.LastModifiedByName</td>
                             <td class="text-end">
                                 <a class="btn btn-sm btn-outline-light" asp-page="/Versions/Details" asp-route-id="@version.VersionId">Open</a>
                                 <a class="btn btn-sm btn-outline-light" asp-page="/Versions/Edit" asp-route-id="@version.VersionId">Edit</a>

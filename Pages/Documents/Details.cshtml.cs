@@ -36,6 +36,11 @@ public class DetailsModel : AuthenticatedPageModel
         }
 
         Versions = await _db.ListVersionsByDocumentAsync(id);
+        foreach (var version in Versions)
+        {
+            version.LastModifiedByName = await _db.GetLastModifiedByNameAsync(version.VersionId) ?? "Unknown";
+        }
+
         return Page();
     }
 

@@ -46,11 +46,6 @@ public class IndexModel : AuthenticatedPageModel
             Documents = await _db.ListDocumentsByUserAsync(CurrentUserId!.Value);
         }
 
-        if (!IsAdmin)
-        {
-            Documents = Documents.Where(d => d.CreatedBy == CurrentUserId!.Value).ToList();
-        }
-
         return Page();
     }
 
