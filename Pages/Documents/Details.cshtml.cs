@@ -18,6 +18,7 @@ public class DetailsModel : AuthenticatedPageModel
 
     public bool IsAdminUser => IsAdmin;
     public int? CurrentUserIdValue => CurrentUserId;
+    public string? CreatedByName { get; set; } = string.Empty;
 
     public async Task<IActionResult> OnGetAsync(int id)
     {
@@ -62,6 +63,7 @@ public class DetailsModel : AuthenticatedPageModel
             version.LastModifiedByName = await _db.GetLastModifiedByNameAsync(version.VersionId) ?? "Unknown";
         }
 
+        CreatedByName = await _db.GetCreatedByName(id);
         return Page();
     }
 }

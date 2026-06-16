@@ -50,7 +50,7 @@ public class EditModel : AuthenticatedPageModel
             return NotFound();
         }
 
-        if (!IsAdmin && document.CreatedBy != CurrentUserId)
+        if (!IsAdmin)
         {
             return StatusCode(403);
         }
@@ -74,9 +74,9 @@ public class EditModel : AuthenticatedPageModel
             return NotFound();
         }
 
-        if (!IsAdmin && document.CreatedBy != CurrentUserId)
+        if (!IsAdmin)
         {
-            TempData["Message"] = "You are not authorized to edit this version!";
+            TempData["Message"] = "Only admins can edit versions.";
             return StatusCode(403);
         }
 

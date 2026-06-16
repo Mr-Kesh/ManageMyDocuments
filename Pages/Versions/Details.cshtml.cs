@@ -113,7 +113,7 @@ public class DetailsModel : AuthenticatedPageModel
             return validation;
         }
 
-        if (!IsAdmin && Document.CreatedBy != CurrentUserId)
+        if (!IsAdmin)
         {
             return StatusCode(403);
         }

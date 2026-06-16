@@ -459,4 +459,12 @@ public class AppDb
         var result = await command.ExecuteScalarAsync();
         return result is null ? null : Convert.ToInt32(result);
     }
+
+    public async Task<string?> GetCreatedByName(int documentId)
+    {
+        await using var connection = await OpenConnectionAsync();
+        await using var command = new MySqlCommand(_queries.Load("Documents", "CreatedBy.sql"), connection);
+        command.Parameters.AddWithValue("@DocumentId", documentId);
+        return await ReadSingleAsync(command, reader => reader.GetString("full_name") ?? "Unknown");
+    }
 }

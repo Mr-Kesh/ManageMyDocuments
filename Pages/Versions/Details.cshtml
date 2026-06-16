@@ -23,9 +23,9 @@ else
                 @Model.AttachmentCount file(s)
             </p>
         </div>
-        <div>
 
-            @if (Model.IsAdminUser || Model.Version.LastModifiedBy == Model.CurrentUserIdValue)
+        <div>
+            @if (Model.IsAdminUser)
             {
                 <a class="btn btn-outline-light" asp-page="/Versions/Edit" asp-route-id="@Model.Version.VersionId">Edit expiry</a>
                 <form method="post" asp-page-handler="DeleteVersion" asp-route-id="@Model.Version.VersionId" class="d-inline"
@@ -33,7 +33,15 @@ else
                     <button type="submit" class="btn btn-outline-danger">Delete version</button>
                 </form>
             }
+            else if (Model.Document.CreatedBy == Model.CurrentUserIdValue)
+            {
+                <form method="post" asp-page-handler="DeleteVersion" asp-route-id="@Model.Version.VersionId" class="d-inline"
+                      onsubmit="return confirm('Delete this version and its files?');">
+                    <button type="submit" class="btn btn-outline-danger">Delete version</button>
+                </form>
+            }
         </div>
+
     </div>
 
     <h2 class="h5 mb-3">Attachments</h2>
@@ -52,11 +60,11 @@ else
                         <a class="btn btn-sm btn-outline-light" asp-page="/Attachments/Download" asp-route-id="@file.AttachmentId">Download</a>
                         <a class="btn btn-sm btn-outline-info" asp-page="/Attachments/Open" asp-route-id="@file.AttachmentId" target="_blank">Open</a>
 
-                        @if (Model.IsAdminUser || Model.Version.LastModifiedBy == Model.CurrentUserIdValue)
+                        @if (Model.IsAdminUser || Model.Document.CreatedBy == Model.CurrentUserIdValue)
                         {
                             <form method="post" asp-page-handler="DeleteAttachment" asp-route-id="@Model.Version.VersionId" asp-route-attachmentId="@file.AttachmentId" class="d-inline"
                               onsubmit="return confirm('Delete this file?');">
-                                <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                             </form>
                         }
                     </span>
@@ -65,14 +73,17 @@ else
         </ul>
     }
 
-    <form method="post" asp-page-handler="Upload" asp-route-id="@Model.Version.VersionId" enctype="multipart/form-data" class="card shadow-sm col-lg-7 mb-4">
-        <div class="card-body">
-            <h3 class="h6">Add files</h3>
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
-            <input asp-for="UploadFiles" class="form-control mb-3" type="file" multiple />
-            <button type="submit" class="btn btn-primary">Upload</button>
-        </div>
-    </form>
+    @if (Model.IsAdminUser)
+    {
+        <form method="post" asp-page-handler="Upload" asp-route-id="@Model.Version.VersionId" enctype="multipart/form-data" class="card shadow-sm col-lg-7 mb-4">
+            <div class="card-body">
+                <h3 class="h6">Add files</h3>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+                <input asp-for="UploadFiles" class="form-control mb-3" type="file" multiple />
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </form>
+    }
 
     <a class="btn btn-outline-secondary" asp-page="/Documents/Details" asp-route-id="@Model.Document.DocumentId">Back to document</a>
 }
