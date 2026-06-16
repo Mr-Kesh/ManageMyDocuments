@@ -35,8 +35,7 @@ public class EditModel : AuthenticatedPageModel
 
         if (!ModelState.IsValid)
         {
-            await LoadPageAsync(Input.VersionId);
-            return Page();
+            return await LoadPageAsync(Input.VersionId);
         }
 
         var version = await _db.GetVersionByIdAsync(Input.VersionId);
