@@ -25,13 +25,9 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    app.UseHsts();
 }
 
 /* The middleware pipeline is the list of steps every web request goes through before ASP.NET returns a response */
-
-/* If the request is coming in over HTTP, it automatically redirects to HTTPS */
-app.UseHttpsRedirection();
 
 /* Serves static files like CSS, JavaScript, and images from the wwwroot folder */
 app.UseStaticFiles();
