@@ -18,33 +18,13 @@ public class EditModel : AuthenticatedPageModel
 
     public async Task<IActionResult> OnGetAsync(int id)
     {
-        var redirect = RequireLogin();
-        if (redirect != null)
-        {
-            return redirect;
-        }
-
-        var document = await _db.GetDocumentByIdAsync(id);
-        if (document is null)
-        {
-            return NotFound();
-        }
-
-        if (!IsAdmin && document.CreatedBy != CurrentUserId)
-        {
-            return Forbid();
-        }
-
-        Input.DocumentId = document.DocumentId;
-        Input.Title = document.Title;
-        Input.CrewName = document.CrewName;
-        return Page();
+        return RequireLogin() ?? await LoadPageDataAsync(id);
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
         var redirect = RequireLogin();
-        if (redirect != null)
+        if (redirect is not null)
         {
             return redirect;
         }
@@ -62,12 +42,32 @@ public class EditModel : AuthenticatedPageModel
 
         if (!IsAdmin && document.CreatedBy != CurrentUserId)
         {
-            return Forbid();
+            return StatusCode(403);
         }
 
         await _db.UpdateDocumentAsync(Input.DocumentId, Input.Title, Input.CrewName);
-        TempData["Message"] = "Document updated.";
+        TempData["Message"] = "Document Edited Successfully!";
         return RedirectToPage("/Documents/Details", new { id = Input.DocumentId });
+    }
+
+    private async Task<IActionResult> LoadPageDataAsync(int id)
+    {
+        var document = await _db.GetDocumentByIdAsync(id);
+        if (document is null)
+        {
+            return NotFound();
+        }
+
+        if (!IsAdmin && document.CreatedBy != CurrentUserId)
+        {
+            return StatusCode(403);
+        }
+
+        Input.DocumentId = id;
+        Input.Title = document.Title;
+        Input.CrewName = document.CrewName;
+
+        return Page();
     }
 
     public class InputModel
@@ -75,10 +75,11 @@ public class EditModel : AuthenticatedPageModel
         public int DocumentId { get; set; }
 
         [Required]
+        [Display(Name = "Document Title")]
         public string Title { get; set; } = string.Empty;
 
         [Required]
-        [Display(Name = "Crew name")]
+        [Display(Name = "Belongs To")]
         public string CrewName { get; set; } = string.Empty;
     }
 }

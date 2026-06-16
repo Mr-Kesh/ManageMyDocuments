@@ -18,19 +18,24 @@ public class ExpiringSoonModel : AuthenticatedPageModel
 
     public List<ExpiringVersionRecord> Versions { get; set; } = [];
 
+
     public async Task<IActionResult> OnGetAsync()
     {
-        var redirect = RequireLogin();
-        if (redirect != null)
-        {
-            return redirect;
-        }
-
         if (Months < 1)
         {
             Months = 3;
         }
+        else if (Months > 24)
+        {
+            Months = 24;
+        }
 
+        return RequireLogin() ?? await LoadPageDataAsync();
+    }
+
+
+    public async Task<IActionResult> LoadPageDataAsync()
+    {
         Versions = await _db.ListVersionsExpiringSoonAsync(Months);
         return Page();
     }

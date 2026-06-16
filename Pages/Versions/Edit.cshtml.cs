@@ -52,7 +52,7 @@ public class EditModel : AuthenticatedPageModel
 
         if (!IsAdmin && document.CreatedBy != CurrentUserId)
         {
-            return Forbid();
+            return StatusCode(403);
         }
 
         await _db.UpdateVersionAsync(Input.VersionId, Input.ExpirationDate, CurrentUserId!.Value);
@@ -76,7 +76,8 @@ public class EditModel : AuthenticatedPageModel
 
         if (!IsAdmin && document.CreatedBy != CurrentUserId)
         {
-            return Forbid();
+            TempData["Message"] = "You are not authorized to edit this version!";
+            return StatusCode(403);
         }
 
         Input.VersionId = versionId;

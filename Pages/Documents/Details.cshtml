@@ -17,11 +17,16 @@ else
         </div>
         <div>
             <a class="btn btn-primary" asp-page="/Versions/Create" asp-route-documentId="@Model.Document.DocumentId">Add version</a>
-            <a class="btn btn-outline-light" asp-page="/Documents/Edit" asp-route-id="@Model.Document.DocumentId">Edit</a>
-            <form method="post" asp-page-handler="Delete" asp-route-id="@Model.Document.DocumentId" class="d-inline"
-                  onsubmit="return confirm('Delete this document and all versions?');">
-                <button type="submit" class="btn btn-outline-danger">Delete</button>
-            </form>
+
+            @if (Model.IsAdminUser || Model.Document.CreatedBy == Model.CurrentUserIdValue)
+            {
+                <a class="btn btn-outline-light" asp-page="/Documents/Edit" asp-route-id="@Model.Document.DocumentId">Edit</a>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@Model.Document.DocumentId" class="d-inline"
+                      onsubmit="return confirm('Delete this document and all versions?');">
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                </form>
+            }
+
         </div>
     </div>
 
@@ -53,7 +58,12 @@ else
                             <td>@version.LastModifiedByName</td>
                             <td class="text-end">
                                 <a class="btn btn-sm btn-outline-light" asp-page="/Versions/Details" asp-route-id="@version.VersionId">Open</a>
-                                <a class="btn btn-sm btn-outline-light" asp-page="/Versions/Edit" asp-route-id="@version.VersionId">Edit</a>
+
+                                @if (Model.IsAdminUser || Model.Document.CreatedBy == Model.CurrentUserIdValue)
+                                {
+                                    <a class="btn btn-sm btn-outline-light" asp-page="/Versions/Edit" asp-route-id="@version.VersionId">Edit</a>
+                                }
+
                             </td>
                         </tr>
                     }

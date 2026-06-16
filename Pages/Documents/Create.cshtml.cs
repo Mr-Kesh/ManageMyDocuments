@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Document_Management_System.Services;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Document_Management_System.Pages.Documents;
 
 public class CreateModel : AuthenticatedPageModel
@@ -51,7 +50,7 @@ public class CreateModel : AuthenticatedPageModel
             await _db.CreateAttachmentAsync(file.FileName, path, contentType, versionId);
         }
 
-        TempData["Message"] = "Document created.";
+        TempData["Message"] = "Document Created Successfully!";
         return RedirectToPage("/Documents/Details", new { id = documentId });
     }
 
@@ -61,11 +60,11 @@ public class CreateModel : AuthenticatedPageModel
         public string Title { get; set; } = string.Empty;
 
         [Required]
-        [Display(Name = "Crew name")]
+        [Display(Name = "Crew Name")]
         public string CrewName { get; set; } = string.Empty;
 
         [Required]
-        [Display(Name = "Expiration date")]
+        [Display(Name = "Expiration Date")]
         [DataType(DataType.Date)]
         public DateTime ExpirationDate { get; set; } = DateTime.Today.AddYears(1);
 

@@ -52,11 +52,15 @@ else
                         <td>@doc.CreationTime.ToString("g")</td>
                         <td class="text-end">
                             <a class="btn btn-sm btn-outline-light" asp-page="/Documents/Details" asp-route-id="@doc.DocumentId">View</a>
-                            <a class="btn btn-sm btn-outline-light" asp-page="/Documents/Edit" asp-route-id="@doc.DocumentId">Edit</a>
-                            <form method="post" asp-page-handler="Delete" asp-route-documentId="@doc.DocumentId" class="d-inline"
-                                  onsubmit="return confirm('Delete this document and all versions?');">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                            </form>
+
+                            @if (Model.IsAdminUser || doc.CreatedBy == Model.CurrentUserIdValue)
+                            {
+                                <a class="btn btn-sm btn-outline-light" asp-page="/Documents/Edit" asp-route-id="@doc.DocumentId">Edit</a>
+                                <form method="post" asp-page-handler="Delete" asp-route-documentId="@doc.DocumentId" class="d-inline"
+                                      onsubmit="return confirm('Delete this document and all versions?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                </form>
+                            }
                         </td>
                     </tr>
                 }

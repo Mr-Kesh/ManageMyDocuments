@@ -41,10 +41,7 @@ public class DownloadModel : AuthenticatedPageModel
             return NotFound();
         }
 
-        if (!IsAdmin && document.CreatedBy != CurrentUserId)
-        {
-            return Forbid();
-        }
+        // Downloading is allowed for any signed-in user.
 
         var absolutePath = _files.GetAbsolutePath(attachment.AttachmentPath);
         if (absolutePath is null || !System.IO.File.Exists(absolutePath))

@@ -18,6 +18,7 @@ public class IndexModel : PageModel
     public int ExpiringCount { get; set; }
     public bool IsSignedIn { get; set; }
     public bool IsAdmin { get; set; }
+    public int UserCount { get; set; }
 
     public async Task OnGetAsync()
     {
@@ -37,5 +38,6 @@ public class IndexModel : PageModel
 
         DocumentCount = documents.Count;
         ExpiringCount = (await _db.ListVersionsExpiringSoonAsync(3)).Count;
+        UserCount = await _db.GetUserCountAsync() ?? 0;
     }
 }

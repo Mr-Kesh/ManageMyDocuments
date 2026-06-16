@@ -24,11 +24,15 @@ else
             </p>
         </div>
         <div>
-            <a class="btn btn-outline-light" asp-page="/Versions/Edit" asp-route-id="@Model.Version.VersionId">Edit expiry</a>
-            <form method="post" asp-page-handler="DeleteVersion" asp-route-id="@Model.Version.VersionId" class="d-inline"
-                  onsubmit="return confirm('Delete this version and its files?');">
-                <button type="submit" class="btn btn-outline-danger">Delete version</button>
-            </form>
+
+            @if (Model.IsAdminUser || Model.Version.LastModifiedBy == Model.CurrentUserIdValue)
+            {
+                <a class="btn btn-outline-light" asp-page="/Versions/Edit" asp-route-id="@Model.Version.VersionId">Edit expiry</a>
+                <form method="post" asp-page-handler="DeleteVersion" asp-route-id="@Model.Version.VersionId" class="d-inline"
+                      onsubmit="return confirm('Delete this version and its files?');">
+                    <button type="submit" class="btn btn-outline-danger">Delete version</button>
+                </form>
+            }
         </div>
     </div>
 
@@ -47,10 +51,14 @@ else
                     <span>
                         <a class="btn btn-sm btn-outline-light" asp-page="/Attachments/Download" asp-route-id="@file.AttachmentId">Download</a>
                         <a class="btn btn-sm btn-outline-info" asp-page="/Attachments/Open" asp-route-id="@file.AttachmentId" target="_blank">Open</a>
-                        <form method="post" asp-page-handler="DeleteAttachment" asp-route-id="@Model.Version.VersionId" asp-route-attachmentId="@file.AttachmentId" class="d-inline"
+
+                        @if (Model.IsAdminUser || Model.Version.LastModifiedBy == Model.CurrentUserIdValue)
+                        {
+                            <form method="post" asp-page-handler="DeleteAttachment" asp-route-id="@Model.Version.VersionId" asp-route-attachmentId="@file.AttachmentId" class="d-inline"
                               onsubmit="return confirm('Delete this file?');">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>
+                                <button type="submit" class="btn btn-outline-danger">Delete</button>
+                            </form>
+                        }
                     </span>
                 </li>
             }

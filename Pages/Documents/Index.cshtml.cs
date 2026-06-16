@@ -21,6 +21,9 @@ public class IndexModel : AuthenticatedPageModel
 
     public List<DocumentRecord> Documents { get; set; } = [];
 
+    public bool IsAdminUser => IsAdmin;
+    public int? CurrentUserIdValue => CurrentUserId;
+
     public async Task<IActionResult> OnGetAsync()
     {
         var redirect = RequireLogin();
@@ -29,30 +32,30 @@ public class IndexModel : AuthenticatedPageModel
             return redirect;
         }
 
-        if (!string.IsNullOrWhiteSpace(Search))
+        if (!string.IsNullOrWhiteSpace(Search) && !string.IsNullOrWhiteSpace(Crew))
+        {
+            Documents = await _db.SearchDocumentsByTitleAndCrewAsync(Search, Crew);
+        }
+        else if (!string.IsNullOrWhiteSpace(Search))
         {
             Documents = await _db.SearchDocumentsByTitleAsync(Search);
         }
-        else if (!string.IsNullOrWhiteSpace(Crew))
-        {
+        else if (!string.IsNullOrWhiteSpace(Crew)) {
             Documents = await _db.FilterDocumentsByCrewAsync(Crew);
-        }
-        else if (IsAdmin)
-        {
-            Documents = await _db.ListAllDocumentsAsync();
         }
         else
         {
-            Documents = await _db.ListDocumentsByUserAsync(CurrentUserId!.Value);
+            Documents = await _db.ListAllDocumentsAsync();
         }
 
         return Page();
     }
 
+
     public async Task<IActionResult> OnPostDeleteAsync(int documentId)
     {
         var redirect = RequireLogin();
-        if (redirect != null)
+        if (redirect is not null)
         {
             return redirect;
         }
@@ -65,11 +68,12 @@ public class IndexModel : AuthenticatedPageModel
 
         if (!IsAdmin && document.CreatedBy != CurrentUserId)
         {
-            return Forbid();
+            return StatusCode(403);
         }
 
         await _db.DeleteDocumentAsync(documentId);
-        TempData["Message"] = "Document deleted.";
+
+        TempData["Message"] = "Document Successfully Deleted!";
         return RedirectToPage();
     }
 }

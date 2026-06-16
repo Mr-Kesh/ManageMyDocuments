@@ -21,6 +21,9 @@ public class DetailsModel : AuthenticatedPageModel
     public List<AttachmentRecord> Attachments { get; set; } = [];
     public int? AttachmentCount { get; set; } = 0;
 
+    public bool IsAdminUser => IsAdmin;
+    public int? CurrentUserIdValue => CurrentUserId;
+
     [BindProperty]
     public List<IFormFile>? UploadFiles { get; set; }
 
@@ -42,6 +45,11 @@ public class DetailsModel : AuthenticatedPageModel
         if (validation is not null)
         {
             return validation;
+        }
+
+        if (!IsAdmin && Document.CreatedBy != CurrentUserId)
+        {
+            return StatusCode(403);
         }
 
         var attachments = await _db.ListAttachmentsByVersionAsync(id);
@@ -73,6 +81,11 @@ public class DetailsModel : AuthenticatedPageModel
             return validation;
         }
 
+        if (!IsAdmin && Document.CreatedBy != CurrentUserId)
+        {
+            return StatusCode(403);
+        }
+
         var attachment = await _db.GetAttachmentByIdAsync(attachmentId);
         if (attachment is null || (attachment.DocumentVersionId != id))
         {
@@ -98,6 +111,11 @@ public class DetailsModel : AuthenticatedPageModel
         if (validation is not null)
         {
             return validation;
+        }
+
+        if (!IsAdmin && Document.CreatedBy != CurrentUserId)
+        {
+            return StatusCode(403);
         }
 
         if (UploadFiles is null || UploadFiles.Count == 0)
@@ -140,11 +158,6 @@ public class DetailsModel : AuthenticatedPageModel
         if (document is null)
         {
             return NotFound();
-        }
-
-        if (!IsAdmin && document.CreatedBy != CurrentUserId)
-        {
-            return Forbid();
         }
 
         Version = verison;

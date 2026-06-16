@@ -246,6 +246,15 @@ public class AppDb
         return await ReadListAsync(command, MapDocument);
     }
 
+    public async Task<List<DocumentRecord>> SearchDocumentsByTitleAndCrewAsync(string titleSearch, string crewSearch)
+    {
+        await using var connection = await OpenConnectionAsync();
+        await using var command = new MySqlCommand(_queries.Load("Documents", "SearchByTitleAndCrew.sql"), connection);
+        command.Parameters.AddWithValue("@TitleSearch", titleSearch);
+        command.Parameters.AddWithValue("@CrewSearch", crewSearch);
+        return await ReadListAsync(command, MapDocument);
+    }
+
     public async Task<List<DocumentRecord>> FilterDocumentsByCrewAsync(string search)
     {
         await using var connection = await OpenConnectionAsync();
@@ -441,5 +450,13 @@ public class AppDb
         await using var command = new MySqlCommand(_queries.Load("DocumentsVersions", "LastModifiedByName.sql"), connection);
         command.Parameters.AddWithValue("@VersionId", versionId);
         return await ReadSingleAsync(command, reader => reader.GetString("last_modified_by_name"));
+    }
+
+    public async Task<int?> GetUserCountAsync()
+    {
+        await using var connection = await OpenConnectionAsync();
+        await using var command = new MySqlCommand(_queries.Load("Users", "UserCount.sql"), connection);
+        var result = await command.ExecuteScalarAsync();
+        return result is null ? null : Convert.ToInt32(result);
     }
 }

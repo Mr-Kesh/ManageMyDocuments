@@ -16,38 +16,18 @@ public class DetailsModel : AuthenticatedPageModel
     public DocumentRecord? Document { get; set; }
     public List<VersionRecord> Versions { get; set; } = [];
 
+    public bool IsAdminUser => IsAdmin;
+    public int? CurrentUserIdValue => CurrentUserId;
+
     public async Task<IActionResult> OnGetAsync(int id)
     {
-        var redirect = RequireLogin();
-        if (redirect != null)
-        {
-            return redirect;
-        }
-
-        Document = await _db.GetDocumentByIdAsync(id);
-        if (Document is null)
-        {
-            return NotFound();
-        }
-
-        if (!IsAdmin && Document.CreatedBy != CurrentUserId)
-        {
-            return Forbid();
-        }
-
-        Versions = await _db.ListVersionsByDocumentAsync(id);
-        foreach (var version in Versions)
-        {
-            version.LastModifiedByName = await _db.GetLastModifiedByNameAsync(version.VersionId) ?? "Unknown";
-        }
-
-        return Page();
+        return RequireLogin() ?? await LoadPageDataAsync(id);
     }
 
     public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
         var redirect = RequireLogin();
-        if (redirect != null)
+        if (redirect is not null)
         {
             return redirect;
         }
@@ -60,11 +40,28 @@ public class DetailsModel : AuthenticatedPageModel
 
         if (!IsAdmin && document.CreatedBy != CurrentUserId)
         {
-            return Forbid();
+            return StatusCode(403);
         }
 
         await _db.DeleteDocumentAsync(id);
-        TempData["Message"] = "Document deleted.";
+        TempData["Message"] = "Document Deleted Successfully!";
         return RedirectToPage("/Documents/Index");
+    }
+
+    private async Task<IActionResult> LoadPageDataAsync(int id)
+    {
+        Document = await _db.GetDocumentByIdAsync(id);
+        if (Document is null)
+        {
+            return NotFound();
+        }
+
+        Versions = await _db.ListVersionsByDocumentAsync(id);
+        foreach (var version in Versions)
+        {
+            version.LastModifiedByName = await _db.GetLastModifiedByNameAsync(version.VersionId) ?? "Unknown";
+        }
+
+        return Page();
     }
 }
